@@ -358,7 +358,7 @@ impl FileAttr {
 
 #[cfg(not(target_os = "netbsd"))]
 impl FileAttr {
-    #[cfg(all(not(target_os = "vxworks"), not(target_os = "espidf")))]
+    #[cfg(all(not(target_os = "vxworks"), not(target_os = "espidf"), not(target_os = "horizon")))]
     pub fn modified(&self) -> io::Result<SystemTime> {
         Ok(SystemTime::from(libc::timespec {
             tv_sec: self.stat.st_mtime as libc::time_t,
@@ -366,7 +366,7 @@ impl FileAttr {
         }))
     }
 
-    #[cfg(any(target_os = "vxworks", target_os = "espidf"))]
+    #[cfg(any(target_os = "vxworks", target_os = "espidf", target_os = "horizon"))]
     pub fn modified(&self) -> io::Result<SystemTime> {
         Ok(SystemTime::from(libc::timespec {
             tv_sec: self.stat.st_mtime as libc::time_t,
@@ -374,7 +374,7 @@ impl FileAttr {
         }))
     }
 
-    #[cfg(all(not(target_os = "vxworks"), not(target_os = "espidf")))]
+    #[cfg(all(not(target_os = "vxworks"), not(target_os = "espidf"), not(target_os = "horizon")))]
     pub fn accessed(&self) -> io::Result<SystemTime> {
         Ok(SystemTime::from(libc::timespec {
             tv_sec: self.stat.st_atime as libc::time_t,
@@ -382,7 +382,7 @@ impl FileAttr {
         }))
     }
 
-    #[cfg(any(target_os = "vxworks", target_os = "espidf"))]
+    #[cfg(any(target_os = "vxworks", target_os = "espidf", target_os = "horizon"))]
     pub fn accessed(&self) -> io::Result<SystemTime> {
         Ok(SystemTime::from(libc::timespec {
             tv_sec: self.stat.st_atime as libc::time_t,
@@ -674,7 +674,8 @@ impl DirEntry {
         target_os = "fuchsia",
         target_os = "redox",
         target_os = "vxworks",
-        target_os = "espidf"
+        target_os = "espidf",
+        target_os = "horizon"
     ))]
     pub fn ino(&self) -> u64 {
         self.entry.d_ino as u64
@@ -1219,7 +1220,7 @@ pub fn link(original: &Path, link: &Path) -> io::Result<()> {
     let original = cstr(original)?;
     let link = cstr(link)?;
     cfg_if::cfg_if! {
-        if #[cfg(any(target_os = "vxworks", target_os = "redox", target_os = "android", target_os = "espidf"))] {
+        if #[cfg(any(target_os = "vxworks", target_os = "redox", target_os = "android", target_os = "espidf", target_os = "horizon"))] {
             // VxWorks, Redox and ESP-IDF lack `linkat`, so use `link` instead. POSIX leaves
             // it implementation-defined whether `link` follows symlinks, so rely on the
             // `symlink_hard_link` test in library/std/src/fs/tests.rs to check the behavior.
