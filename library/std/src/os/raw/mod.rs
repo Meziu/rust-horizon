@@ -86,7 +86,8 @@ type_alias! { "char.md", c_char = u8, NonZero_c_char = NonZeroU8;
             target_arch = "powerpc"
         )
     ),
-    all(target_os = "fuchsia", target_arch = "aarch64")
+    all(target_os = "fuchsia", target_arch = "aarch64"),
+    target_os = "horizon"
 ))]}
 type_alias! { "char.md", c_char = i8, NonZero_c_char = NonZeroI8;
 #[doc(cfg(all()))]
@@ -129,7 +130,8 @@ type_alias! { "char.md", c_char = i8, NonZero_c_char = NonZeroI8;
             target_arch = "powerpc"
         )
     ),
-    all(target_os = "fuchsia", target_arch = "aarch64")
+    all(target_os = "fuchsia", target_arch = "aarch64"),
+    target_os = "horizon"
 )))]}
 type_alias! { "schar.md", c_schar = i8, NonZero_c_schar = NonZeroI8; }
 type_alias! { "uchar.md", c_uchar = u8, NonZero_c_uchar = NonZeroU8; }

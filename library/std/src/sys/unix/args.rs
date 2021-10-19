@@ -247,7 +247,7 @@ mod imp {
     }
 }
 
-#[cfg(target_os = "espidf")]
+#[cfg(any(target_os = "espidf", target_os = "horizon"))]
 mod imp {
     use super::Args;
 
