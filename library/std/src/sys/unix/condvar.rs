@@ -38,7 +38,7 @@ impl Condvar {
     // So on that platform, init() should always be called
     // Moreover, that platform does not have pthread_condattr_setclock support,
     // hence that initialization should be skipped as well
-    #[cfg(target_os = "espidf")]
+    #[cfg(any(target_os = "espidf", target_os = "horizon"))]
     pub unsafe fn init(&mut self) {
         let r = libc::pthread_cond_init(self.inner.get(), crate::ptr::null());
         assert_eq!(r, 0);
@@ -50,7 +50,8 @@ impl Condvar {
         target_os = "l4re",
         target_os = "android",
         target_os = "redox",
-        target_os = "espidf"
+        target_os = "espidf",
+        target_os = "horizon"
     )))]
     pub unsafe fn init(&mut self) {
         use crate::mem::MaybeUninit;

@@ -5,7 +5,7 @@ use crate::io::ErrorKind;
 pub use self::rand::hashmap_random_keys;
 pub use libc::strlen;
 
-#[cfg(not(target_os = "espidf"))]
+#[cfg(not(any(target_os = "espidf", target_os = "espidf")))]
 #[macro_use]
 pub mod weak;
 
@@ -44,10 +44,10 @@ pub mod thread_local_dtor;
 pub mod thread_local_key;
 pub mod time;
 
-#[cfg(target_os = "espidf")]
+#[cfg(any(target_os = "espidf", target_os = "horizon"))]
 pub fn init(argc: isize, argv: *const *const u8) {}
 
-#[cfg(not(target_os = "espidf"))]
+#[cfg(not(any(target_os = "espidf", target_os = "horizon")))]
 // SAFETY: must be called only once during runtime initialization.
 // NOTE: this is not guaranteed to run, for example when Rust code is called externally.
 pub unsafe fn init(argc: isize, argv: *const *const u8) {
@@ -313,7 +313,7 @@ cfg_if::cfg_if! {
     }
 }
 
-#[cfg(target_os = "espidf")]
+#[cfg(any(target_os = "espidf", target_os = "horizon"))]
 mod unsupported {
     use crate::io;
 
