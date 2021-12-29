@@ -401,10 +401,10 @@ impl TcpListener {
 
         cfg_if::cfg_if! {
             if #[cfg(target_os = "horizon")] {
-                // The 3DS doesn't support more than this many connections in
-                // the backlog without returning an error or failing during
-                // accept (value was determined experimentally).
-                let backlog = 37;
+                // The 3DS doesn't support a big connection backlog. Sometimes
+                // it allows up to about 37, but other times it doesn't even
+                // accept 32. There may be a global limitation causing this.
+                let backlog = 5;
             } else {
                 // The default for all other platforms
                 let backlog = 128;
