@@ -15,13 +15,8 @@ cfg-if = { version = "0.1.8", features = ['rustc-dep-of-std'] }
 panic_unwind = { path = "../panic_unwind", optional = true }
 panic_abort = { path = "../panic_abort" }
 core = { path = "../core" }
-<<<<<<< HEAD
 libc = { version = "0.2.108", default-features = false, features = ['rustc-dep-of-std'] }
 compiler_builtins = { version = "0.1.66" }
-=======
-libc = { path = "/home/andrea/Desktop/ProgrammingStuff/Rust/rust-3ds/libc", default-features = false, features = ['rustc-dep-of-std'] }
-compiler_builtins = { version = "0.1.44" }
->>>>>>> d993c997655 (Horizon OS STD support)
 profiler_builtins = { path = "../profiler_builtins", optional = true }
 unwind = { path = "../unwind" }
 hashbrown = { version = "0.11", default-features = false, features = ['rustc-dep-of-std'] }
