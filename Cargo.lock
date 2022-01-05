@@ -2041,8 +2041,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "565dbd88872dbe4cc8a46e527f26483c1d1f7afa6b884a3bd6cd893d4f98da74"
 =======
 version = "0.2.105"
+<<<<<<< HEAD
 source = "git+https://github.com/Meziu/libc#b3363cd730adf81b46194f483f2afd7b84bbf78e"
 >>>>>>> 02a1985caaf (Use Git dependency for patched libc)
+=======
+source = "git+https://github.com/Meziu/libc#2de354450c6583858329866ee2eaa33852775d21"
+>>>>>>> 517b4916981 (Fix libc dependency spec and update to latest commit)
 dependencies = [
  "rustc-std-workspace-core",
 ]
