@@ -1947,7 +1947,7 @@ checksum = "830d08ce1d1d941e6b30645f1a0eb5643013d835ce3779a5fc208261dbe10f55"
 [[package]]
 name = "libc"
 version = "0.2.105"
-source = "git+https://github.com/Meziu/libc#b3363cd730adf81b46194f483f2afd7b84bbf78e"
+source = "git+https://github.com/Meziu/libc#2de354450c6583858329866ee2eaa33852775d21"
 dependencies = [
  "rustc-std-workspace-core",
 ]
