@@ -131,5 +131,8 @@ rustc-std-workspace-core = { path = 'library/rustc-std-workspace-core' }
 rustc-std-workspace-alloc = { path = 'library/rustc-std-workspace-alloc' }
 rustc-std-workspace-std = { path = 'library/rustc-std-workspace-std' }
 
+# 3DS changes havne't merged to libc upstream yet
+libc = { git = "https://github.com/Meziu/libc" }
+
 [patch."https://github.com/rust-lang/rust-clippy"]
 clippy_lints = { path = "src/tools/clippy/clippy_lints" }
