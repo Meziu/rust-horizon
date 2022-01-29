@@ -2117,6 +2117,7 @@ checksum = "830d08ce1d1d941e6b30645f1a0eb5643013d835ce3779a5fc208261dbe10f55"
 name = "libc"
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 version = "0.2.116"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "565dbd88872dbe4cc8a46e527f26483c1d1f7afa6b884a3bd6cd893d4f98da74"
@@ -2146,6 +2147,11 @@ checksum = "8521a1b57e76b1ec69af7599e75e38e7b7fad6610f037db8c79b127201b5d119"
 version = "0.2.113"
 source = "git+https://github.com/Meziu/libc#98ef7e73e32139fb5cf47df40421b5dc88c9434f"
 >>>>>>> 6a080ed3a32 (Fix merge conflicts and libc dependency)
+=======
+version = "0.2.116"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "565dbd88872dbe4cc8a46e527f26483c1d1f7afa6b884a3bd6cd893d4f98da74"
+>>>>>>> 7c9c8640a4a (Update libc to the upstream)
 dependencies = [
  "rustc-std-workspace-core",
 ]
