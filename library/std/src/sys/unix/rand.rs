@@ -19,8 +19,7 @@ pub fn hashmap_random_keys() -> (u64, u64) {
     not(target_os = "netbsd"),
     not(target_os = "fuchsia"),
     not(target_os = "redox"),
-    not(target_os = "vxworks"),
-    not(target_os = "horizon")
+    not(target_os = "vxworks")
 ))]
 mod imp {
     use crate::fs::File;
@@ -271,19 +270,6 @@ mod imp {
         };
         if ret < 0 {
             panic!("couldn't generate random bytes: {}", io::Error::last_os_error());
-        }
-    }
-}
-
-#[cfg(target_os = "horizon")]
-mod imp {
-    pub fn fill_bytes(v: &mut [u8]) {
-        // Horizon OS doesn't support true randomization nor random buffers
-        // Good ol' `rand` it is
-        for i in v {
-            unsafe {
-                *i = (libc::rand() % 256) as u8;
-            }
         }
     }
 }
