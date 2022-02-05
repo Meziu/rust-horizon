@@ -38,6 +38,8 @@ impl Condvar {
     // So on that platform, init() should always be called
     // Moreover, that platform does not have pthread_condattr_setclock support,
     // hence that initialization should be skipped as well
+    //
+    // Similar story for the 3DS (horizon).
     #[cfg(any(target_os = "espidf", target_os = "horizon"))]
     pub unsafe fn init(&mut self) {
         let r = libc::pthread_cond_init(self.inner.get(), crate::ptr::null());
@@ -92,7 +94,8 @@ impl Condvar {
         target_os = "macos",
         target_os = "ios",
         target_os = "android",
-        target_os = "espidf"
+        target_os = "espidf",
+        target_os = "horizon"
     )))]
     pub unsafe fn wait_timeout(&self, mutex: &Mutex, dur: Duration) -> bool {
         use crate::mem;
@@ -124,7 +127,8 @@ impl Condvar {
         target_os = "macos",
         target_os = "ios",
         target_os = "android",
-        target_os = "espidf"
+        target_os = "espidf",
+        target_os = "horizon"
     ))]
     pub unsafe fn wait_timeout(&self, mutex: &Mutex, mut dur: Duration) -> bool {
         use crate::ptr;
