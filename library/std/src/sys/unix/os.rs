@@ -581,7 +581,8 @@ pub fn home_dir() -> Option<PathBuf> {
         target_os = "emscripten",
         target_os = "redox",
         target_os = "vxworks",
-        target_os = "espidf"
+        target_os = "espidf",
+        target_os = "horizon"
     ))]
     unsafe fn fallback() -> Option<OsString> {
         None
@@ -592,7 +593,8 @@ pub fn home_dir() -> Option<PathBuf> {
         target_os = "emscripten",
         target_os = "redox",
         target_os = "vxworks",
-        target_os = "espidf"
+        target_os = "espidf",
+        target_os = "horizon"
     )))]
     unsafe fn fallback() -> Option<OsString> {
         let amt = match libc::sysconf(libc::_SC_GETPW_R_SIZE_MAX) {
