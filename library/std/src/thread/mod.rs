@@ -371,6 +371,7 @@ impl Builder {
     /// let builder = thread::Builder::new().priority(0x30);
     /// ```
     #[cfg(target_os = "horizon")]
+    #[stable(feature = "horizon_thread_ext", since = "1.60.0")]
     pub fn priority(mut self, priority: i32) -> Builder {
         self.priority = Some(priority);
         self
@@ -404,6 +405,7 @@ impl Builder {
     /// let builder = thread::Builder::new().affinity(0);
     /// ```
     #[cfg(target_os = "horizon")]
+    #[stable(feature = "horizon_thread_ext", since = "1.60.0")]
     pub fn affinity(mut self, affinity: i32) -> Builder {
         self.affinity = Some(affinity);
         self
@@ -538,12 +540,12 @@ impl Builder {
         // If no priority value is specified, spawn with the same
         // priority as the parent thread
         #[cfg(target_os = "horizon")]
-        let priority = priority.unwrap_or_else(imp::current_priority);
+        let priority = self.priority.unwrap_or_else(imp::current_priority);
 
         // If no affinity is specified, spawn on the default core (determined by
         // the application's Exheader)
         #[cfg(target_os = "horizon")]
-        let affinity = affinity.unwrap_or(-2);
+        let affinity = self.affinity.unwrap_or(-2);
 
         let my_thread = Thread::new(self.name.map(|name| {
             CString::new(name).expect("thread name may not contain interior null bytes")

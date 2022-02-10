@@ -288,7 +288,7 @@ impl Drop for Thread {
 /// Returns the current thread's priority value.
 #[cfg(target_os = "horizon")]
 pub(crate) fn current_priority() -> i32 {
-    unsafe { libc::pthread_getpriority(libc::pthread_self()) }
+    unsafe { libc::pthread_getpriority() }
 }
 
 pub fn available_parallelism() -> io::Result<NonZeroUsize> {
