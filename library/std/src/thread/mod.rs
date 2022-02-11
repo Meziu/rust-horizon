@@ -371,7 +371,7 @@ impl Builder {
     /// let builder = thread::Builder::new().priority(0x30);
     /// ```
     #[cfg(target_os = "horizon")]
-    #[stable(feature = "horizon_thread_ext", since = "1.60.0")]
+    #[unstable(feature = "horizon_thread_ext", issue = "none")]
     pub fn priority(mut self, priority: i32) -> Builder {
         self.priority = Some(priority);
         self
@@ -402,7 +402,7 @@ impl Builder {
     /// let builder = thread::Builder::new().affinity(0);
     /// ```
     #[cfg(target_os = "horizon")]
-    #[stable(feature = "horizon_thread_ext", since = "1.60.0")]
+    #[unstable(feature = "horizon_thread_ext", issue = "none")]
     pub fn affinity(mut self, affinity: i32) -> Builder {
         self.affinity = Some(affinity);
         self
