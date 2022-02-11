@@ -387,7 +387,7 @@ impl Builder {
     ///
     /// *Processor #0 is the application core. It is always possible to create a thread on this
     /// core.
-    /// *Processor #1 is the system core. If APT_SetAppCpuTimeLimit is used, it is possible
+    /// *Processor #1 is the system core. If the CPU time limit is set, it is possible
     /// to create a single thread on this core.
     /// *Processor #2 is New3DS exclusive. Normal applications can create threads on
     /// this core if the exheader kernel flags bitmask has 0x2000 set.
