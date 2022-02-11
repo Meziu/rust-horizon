@@ -15,7 +15,9 @@ pub trait ThreadBuilderExt: Sized {
     /// has a priority of 0x30, but not always.
     fn priority(mut self, priority: i32) -> Self;
 
-    /// Sets the ID of the processor the thread should be run on.
+    /// Sets the ID of the processor the thread should be run on. Threads on the 3DS are only
+    /// preemptive if they are on the system core. Otherwise they are cooperative (must yield to let
+    /// other threads run).
     ///
     /// Processor IDs are labeled starting from 0. On Old3DS it must be <2, and
     /// on New3DS it must be <4. Pass -1 to execute the thread on all CPUs and
