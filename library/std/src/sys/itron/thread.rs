@@ -84,7 +84,15 @@ impl Thread {
     /// # Safety
     ///
     /// See `thread::Builder::spawn_unchecked` for safety requirements.
-    pub unsafe fn new(stack: usize, p: Box<dyn FnOnce()>) -> io::Result<Thread> {
+    pub unsafe fn new(
+        stack: usize,
+        p: Box<dyn FnOnce()>,
+        _native_options: BuilderOptions,
+    ) -> io::Result<Thread> {
+        // Inherit the current task's priority
+        let current_task = task::try_current_task_id().map_err(|e| e.as_io_error())?;
+        let priority = task::try_task_priority(current_task).map_err(|e| e.as_io_error())?;
+
         let inner = Box::new(ThreadInner {
             start: UnsafeCell::new(ManuallyDrop::new(p)),
             lifecycle: AtomicUsize::new(LIFECYCLE_INIT),
@@ -288,6 +296,9 @@ impl Drop for Thread {
         }
     }
 }
+
+#[derive(Debug)]
+pub struct BuilderOptions;
 
 pub mod guard {
     pub type Guard = !;

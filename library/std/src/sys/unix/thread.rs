@@ -58,8 +58,7 @@ impl Thread {
     pub unsafe fn new(
         stack: usize,
         p: Box<dyn FnOnce()>,
-        #[cfg(target_os = "horizon")] priority: i32,
-        #[cfg(target_os = "horizon")] affinity: i32,
+        #[allow(unused)] native_options: BuilderOptions,
     ) -> io::Result<Thread> {
         let p = Box::into_raw(box p);
         let mut native: libc::pthread_t = mem::zeroed();
@@ -98,7 +97,14 @@ impl Thread {
 
         #[cfg(target_os = "horizon")]
         {
-            // Set the priority and affinity values
+            // If no priority value is specified, spawn with the same priority
+            // as the parent thread.
+            let priority = native_options.priority.unwrap_or_else(current_priority);
+
+            // If no affinity is specified, spawn on the default core.
+            // (determined by the application's Exheader)
+            let affinity = native_options.affinity.unwrap_or(-2);
+
             assert_eq!(libc::pthread_attr_setpriority(&mut attr, priority), 0);
             assert_eq!(libc::pthread_attr_setaffinity(&mut attr, affinity), 0);
         }
@@ -282,6 +288,27 @@ impl Drop for Thread {
     fn drop(&mut self) {
         let ret = unsafe { libc::pthread_detach(self.id) };
         debug_assert_eq!(ret, 0);
+    }
+}
+
+#[derive(Debug)]
+pub struct BuilderOptions {
+    /// The spawned thread's priority value
+    #[cfg(target_os = "horizon")]
+    pub(crate) priority: Option<i32>,
+    /// The spawned thread's CPU affinity value
+    #[cfg(target_os = "horizon")]
+    pub(crate) affinity: Option<i32>,
+}
+
+impl Default for BuilderOptions {
+    fn default() -> Self {
+        BuilderOptions {
+            #[cfg(target_os = "horizon")]
+            priority: None,
+            #[cfg(target_os = "horizon")]
+            affinity: None,
+        }
     }
 }
 
