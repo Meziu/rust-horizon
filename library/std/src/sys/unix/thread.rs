@@ -11,12 +11,7 @@ use crate::time::Duration;
 use crate::sys::weak::dlsym;
 #[cfg(any(target_os = "solaris", target_os = "illumos"))]
 use crate::sys::weak::weak;
-#[cfg(not(any(
-    target_os = "l4re",
-    target_os = "vxworks",
-    target_os = "espidf",
-    target_os = "horizon"
-)))]
+#[cfg(not(any(target_os = "l4re", target_os = "vxworks", target_os = "espidf")))]
 pub const DEFAULT_MIN_STACK_SIZE: usize = 2 * 1024 * 1024;
 #[cfg(target_os = "l4re")]
 pub const DEFAULT_MIN_STACK_SIZE: usize = 1024 * 1024;
@@ -24,8 +19,6 @@ pub const DEFAULT_MIN_STACK_SIZE: usize = 1024 * 1024;
 pub const DEFAULT_MIN_STACK_SIZE: usize = 256 * 1024;
 #[cfg(target_os = "espidf")]
 pub const DEFAULT_MIN_STACK_SIZE: usize = 0; // 0 indicates that the stack size configured in the ESP-IDF menuconfig system should be used
-#[cfg(target_os = "horizon")]
-pub const DEFAULT_MIN_STACK_SIZE: usize = libc::PTHREAD_STACK_MIN;
 
 #[cfg(target_os = "fuchsia")]
 mod zircon {
