@@ -394,9 +394,6 @@ impl Builder {
     /// *Processor #3 is New3DS exclusive. Normal applications cannot create threads
     /// on this core.
     ///
-    /// Processes in the BASE memory region can always create threads on
-    /// processors #2 and #3.
-    ///
     /// # Examples
     /// ```
     /// use std::thread;
