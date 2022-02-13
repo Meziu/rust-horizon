@@ -92,7 +92,9 @@ impl Thread {
         {
             // If no priority value is specified, spawn with the same priority
             // as the parent thread.
-            let priority = native_options.priority.unwrap_or_else(current_priority);
+            let priority = native_options
+                .priority
+                .unwrap_or_else(crate::os::horizon::thread::current_priority);
             let sched_param = libc::sched_param { sched_priority: priority };
 
             // If no processor is specified, spawn on the default core.
@@ -304,12 +306,6 @@ impl Default for BuilderOptions {
             ideal_processor: None,
         }
     }
-}
-
-/// Returns the current thread's priority value.
-#[cfg(target_os = "horizon")]
-pub(crate) fn current_priority() -> i32 {
-    unsafe { libc::pthread_getpriority() }
 }
 
 pub fn available_parallelism() -> io::Result<NonZeroUsize> {

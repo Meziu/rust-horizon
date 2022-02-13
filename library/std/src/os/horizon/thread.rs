@@ -45,3 +45,15 @@ impl ThreadBuilderExt for crate::thread::Builder {
         self
     }
 }
+
+/// Get the current thread's priority level. Lower values correspond to higher
+/// priority levels.
+pub fn current_priority() -> i32 {
+    let thread_id = unsafe { libc::pthread_self() };
+    let mut policy = 0;
+    let mut sched_param = libc::sched_param { sched_priority: 0 };
+
+    unsafe { libc::pthread_getschedparam(thread_id, &mut policy, &mut sched_param) };
+
+    sched_param.sched_priority
+}
