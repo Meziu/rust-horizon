@@ -93,13 +93,14 @@ impl Thread {
             // If no priority value is specified, spawn with the same priority
             // as the parent thread.
             let priority = native_options.priority.unwrap_or_else(current_priority);
+            let sched_param = libc::sched_param { sched_priority: priority };
 
-            // If no affinity is specified, spawn on the default core.
+            // If no processor is specified, spawn on the default core.
             // (determined by the application's Exheader)
-            let affinity = native_options.affinity.unwrap_or(-2);
+            let ideal_processor = native_options.ideal_processor.unwrap_or(-2);
 
-            assert_eq!(libc::pthread_attr_setpriority(&mut attr, priority), 0);
-            assert_eq!(libc::pthread_attr_setaffinity(&mut attr, affinity), 0);
+            assert_eq!(libc::pthread_attr_setschedparam(&mut attr, &sched_param), 0);
+            assert_eq!(libc::pthread_attr_setidealprocessor_np(&mut attr, ideal_processor), 0);
         }
 
         let ret = libc::pthread_create(&mut native, &attr, thread_start, p as *mut _);
@@ -289,9 +290,9 @@ pub struct BuilderOptions {
     /// The spawned thread's priority value
     #[cfg(target_os = "horizon")]
     pub(crate) priority: Option<i32>,
-    /// The spawned thread's CPU affinity value
+    /// The processor to spawn the thread on. See `os::horizon::thread::ThreadBuilderExt`.
     #[cfg(target_os = "horizon")]
-    pub(crate) affinity: Option<i32>,
+    pub(crate) ideal_processor: Option<i32>,
 }
 
 impl Default for BuilderOptions {
@@ -300,7 +301,7 @@ impl Default for BuilderOptions {
             #[cfg(target_os = "horizon")]
             priority: None,
             #[cfg(target_os = "horizon")]
-            affinity: None,
+            ideal_processor: None,
         }
     }
 }

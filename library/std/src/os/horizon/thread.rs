@@ -31,7 +31,7 @@ pub trait ThreadBuilderExt: Sized {
     /// this core if the exheader kernel flags bitmask has 0x2000 set.
     /// *Processor #3 is New3DS exclusive. Normal applications cannot create threads
     /// on this core.
-    fn affinity(mut self, affinity: i32) -> Self;
+    fn ideal_processor(mut self, ideal_processor: i32) -> Self;
 }
 
 impl ThreadBuilderExt for crate::thread::Builder {
@@ -40,8 +40,8 @@ impl ThreadBuilderExt for crate::thread::Builder {
         self
     }
 
-    fn affinity(mut self, affinity: i32) -> Self {
-        self.native_options.affinity = Some(affinity);
+    fn ideal_processor(mut self, ideal_processor: i32) -> Self {
+        self.native_options.ideal_processor = Some(ideal_processor);
         self
     }
 }
