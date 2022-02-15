@@ -335,12 +335,17 @@ impl FileAttr {
         }))
     }
 
-    #[cfg(any(target_os = "vxworks", target_os = "espidf", target_os = "horizon"))]
+    #[cfg(any(target_os = "vxworks", target_os = "espidf"))]
     pub fn modified(&self) -> io::Result<SystemTime> {
         Ok(SystemTime::from(libc::timespec {
             tv_sec: self.stat.st_mtime as libc::time_t,
             tv_nsec: 0,
         }))
+    }
+
+    #[cfg(target_os = "horizon")]
+    pub fn modified(&self) -> io::Result<SystemTime> {
+        Ok(SystemTime::from(self.stat.st_mtim))
     }
 
     #[cfg(all(not(target_os = "vxworks"), not(target_os = "espidf"), not(target_os = "horizon")))]
@@ -351,12 +356,17 @@ impl FileAttr {
         }))
     }
 
-    #[cfg(any(target_os = "vxworks", target_os = "espidf", target_os = "horizon"))]
+    #[cfg(any(target_os = "vxworks", target_os = "espidf"))]
     pub fn accessed(&self) -> io::Result<SystemTime> {
         Ok(SystemTime::from(libc::timespec {
             tv_sec: self.stat.st_atime as libc::time_t,
             tv_nsec: 0,
         }))
+    }
+
+    #[cfg(target_os = "horizon")]
+    pub fn accessed(&self) -> io::Result<SystemTime> {
+        Ok(SystemTime::from(self.stat.st_atim))
     }
 
     #[cfg(any(
