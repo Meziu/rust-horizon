@@ -99,10 +99,10 @@ impl Thread {
 
             // If no processor is specified, spawn on the default core.
             // (determined by the application's Exheader)
-            let ideal_processor = native_options.ideal_processor.unwrap_or(-2);
+            let processor_id = native_options.processor_id.unwrap_or(-2);
 
             assert_eq!(libc::pthread_attr_setschedparam(&mut attr, &sched_param), 0);
-            assert_eq!(libc::pthread_attr_setidealprocessor_np(&mut attr, ideal_processor), 0);
+            assert_eq!(libc::pthread_attr_setprocessorid_np(&mut attr, processor_id), 0);
         }
 
         let ret = libc::pthread_create(&mut native, &attr, thread_start, p as *mut _);
@@ -294,7 +294,7 @@ pub struct BuilderOptions {
     pub(crate) priority: Option<i32>,
     /// The processor to spawn the thread on. See `os::horizon::thread::ThreadBuilderExt`.
     #[cfg(target_os = "horizon")]
-    pub(crate) ideal_processor: Option<i32>,
+    pub(crate) processor_id: Option<i32>,
 }
 
 impl Default for BuilderOptions {
@@ -303,7 +303,7 @@ impl Default for BuilderOptions {
             #[cfg(target_os = "horizon")]
             priority: None,
             #[cfg(target_os = "horizon")]
-            ideal_processor: None,
+            processor_id: None,
         }
     }
 }

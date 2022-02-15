@@ -50,7 +50,7 @@ pub trait ThreadBuilderExt: Sized {
     ///   set.
     /// * Processor #3 is New3DS exclusive. Normal applications cannot create
     ///   threads on this core.
-    fn ideal_processor(mut self, ideal_processor: i32) -> Self;
+    fn processor_id(mut self, processor_id: i32) -> Self;
 }
 
 impl ThreadBuilderExt for crate::thread::Builder {
@@ -59,8 +59,8 @@ impl ThreadBuilderExt for crate::thread::Builder {
         self
     }
 
-    fn ideal_processor(mut self, ideal_processor: i32) -> Self {
-        self.native_options.ideal_processor = Some(ideal_processor);
+    fn processor_id(mut self, processor_id: i32) -> Self {
+        self.native_options.processor_id = Some(processor_id);
         self
     }
 }
