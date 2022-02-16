@@ -292,7 +292,7 @@ pub struct BuilderOptions {
     /// The spawned thread's priority value
     #[cfg(target_os = "horizon")]
     pub(crate) priority: Option<i32>,
-    /// The processor to spawn the thread on. See `os::horizon::thread::ThreadBuilderExt`.
+    /// The processor to spawn the thread on. See [`os::horizon::thread::BuilderExt`].
     #[cfg(target_os = "horizon")]
     pub(crate) processor_id: Option<i32>,
 }

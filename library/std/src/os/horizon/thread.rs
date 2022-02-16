@@ -24,7 +24,7 @@
 /// Extensions on [`std::thread::Builder`] for the Nintendo 3DS.
 ///
 /// [`std::thread::Builder`]: crate::thread::Builder
-pub trait ThreadBuilderExt: Sized {
+pub trait BuilderExt: Sized {
     /// Sets the priority level for the new thread.
     ///
     /// Low values gives the thread higher priority. For userland apps, this has
@@ -53,7 +53,7 @@ pub trait ThreadBuilderExt: Sized {
     fn processor_id(mut self, processor_id: i32) -> Self;
 }
 
-impl ThreadBuilderExt for crate::thread::Builder {
+impl BuilderExt for crate::thread::Builder {
     fn priority(mut self, priority: i32) -> Self {
         self.native_options.priority = Some(priority);
         self
