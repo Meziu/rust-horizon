@@ -129,12 +129,12 @@ pub fn error_string(errno: i32) -> String {
     }
 }
 
-#[cfg(target_os = "espidf")]
+#[cfg(any(target_os = "espidf", target_os = "horizon"))]
 pub fn getcwd() -> io::Result<PathBuf> {
     Ok(PathBuf::from("/"))
 }
 
-#[cfg(not(target_os = "espidf"))]
+#[cfg(not(any(target_os = "espidf", target_os = "horizon")))]
 pub fn getcwd() -> io::Result<PathBuf> {
     let mut buf = Vec::with_capacity(512);
     loop {
@@ -161,12 +161,12 @@ pub fn getcwd() -> io::Result<PathBuf> {
     }
 }
 
-#[cfg(target_os = "espidf")]
+#[cfg(any(target_os = "espidf", target_os = "horizon"))]
 pub fn chdir(p: &path::Path) -> io::Result<()> {
     super::unsupported::unsupported()
 }
 
-#[cfg(not(target_os = "espidf"))]
+#[cfg(not(any(target_os = "espidf", target_os = "horizon")))]
 pub fn chdir(p: &path::Path) -> io::Result<()> {
     let p: &OsStr = p.as_ref();
     let p = CString::new(p.as_bytes())?;
@@ -557,7 +557,7 @@ pub fn unsetenv(n: &OsStr) -> io::Result<()> {
     }
 }
 
-#[cfg(not(target_os = "espidf"))]
+#[cfg(not(any(target_os = "espidf", target_os = "horizon")))]
 pub fn page_size() -> usize {
     unsafe { libc::sysconf(libc::_SC_PAGESIZE) as usize }
 }
