@@ -161,12 +161,12 @@ pub fn getcwd() -> io::Result<PathBuf> {
     }
 }
 
-#[cfg(any(target_os = "espidf", target_os = "horizon"))]
+#[cfg(target_os = "espidf")]
 pub fn chdir(p: &path::Path) -> io::Result<()> {
     super::unsupported::unsupported()
 }
 
-#[cfg(not(any(target_os = "espidf", target_os = "horizon")))]
+#[cfg(not(target_os = "espidf"))]
 pub fn chdir(p: &path::Path) -> io::Result<()> {
     let p: &OsStr = p.as_ref();
     let p = CString::new(p.as_bytes())?;
