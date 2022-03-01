@@ -72,7 +72,8 @@ pub fn current_priority() -> i32 {
     let mut policy = 0;
     let mut sched_param = libc::sched_param { sched_priority: 0 };
 
-    unsafe { libc::pthread_getschedparam(thread_id, &mut policy, &mut sched_param) };
+    let result = unsafe { libc::pthread_getschedparam(thread_id, &mut policy, &mut sched_param) };
+    assert_eq!(result, 0);
 
     sched_param.sched_priority
 }
