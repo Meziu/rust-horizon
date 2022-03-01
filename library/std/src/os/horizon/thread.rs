@@ -13,9 +13,9 @@
 //! to continue their work.
 //!
 //! However, it is possible to spawn one fully preemptive thread on the syscore
-//! by using a service call (https://www.3dbrew.org/wiki/APT:SetApplicationCpuTimeLimit)
-//! to reserve a slice of time for a thread to run. Attempting to run more than
-//! one thread at a time on the syscore will result in an error.
+//! by using a service call to reserve a slice of time for a thread to run.
+//! Attempting to run more than one thread at a time on the syscore will result
+//! in an error.
 //!
 //! [`std::thread`]: crate::thread
 
