@@ -46,8 +46,7 @@ pub trait BuilderExt: Sized {
     /// * Processor #1 is the system core. If the CPU time limit is set, it is
     ///   possible to create a single thread on this core.
     /// * Processor #2 is New3DS exclusive. Normal applications can create
-    ///   threads on this core if the exheader kernel flags bitmask has 0x2000
-    ///   set.
+    ///   threads on this core only if the built application has proper external setup.
     /// * Processor #3 is New3DS exclusive. Normal applications cannot create
     ///   threads on this core.
     fn processor_id(mut self, processor_id: i32) -> Self;
