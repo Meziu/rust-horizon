@@ -3,6 +3,7 @@ pub use self::process_inner::{ExitStatus, ExitStatusError, Process};
 pub use crate::ffi::OsString as EnvKey;
 pub use crate::sys_common::process::CommandEnvs;
 
+#[cfg_attr(any(target_os = "espidf", target_os = "horizon"), allow(unused))]
 mod process_common;
 
 cfg_if::cfg_if! {

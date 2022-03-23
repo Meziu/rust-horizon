@@ -8,6 +8,7 @@
               crates.io should be used instead for the correct \
               definitions"
 )]
+#![allow(deprecated)]
 
 use crate::os::raw::c_long;
 use crate::os::unix::raw::{gid_t, uid_t};
