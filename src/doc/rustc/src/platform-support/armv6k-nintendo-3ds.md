@@ -126,3 +126,5 @@ programs as well.
 The toolchain also provides a `libc` implementation, which is required by `std`
 for many of its APIs, and a helper library `libctru` which is used by several
 of the helper crates listed in [Requirements](#requirements).
+This toolchain does not, however, include all of the APIs expected by `std`,
+and the remaining APIs are implemented by `pthread-3ds` and `linker-fix-3ds`.
