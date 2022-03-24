@@ -47,7 +47,7 @@ This target generates binaries in the ELF format.
 ## Building the target
 
 You can build Rust with support for the target by adding it to the `target`
-list in `config.toml` and providing paths to the devkitARM toolchain, e.g.:
+list in `config.toml` and providing paths to the devkitARM toolchain.
 
 ```toml
 [build]
@@ -60,6 +60,13 @@ cxx = "/opt/devkitpro/devkitARM/bin/arm-none-eabi-g++"
 ar = "/opt/devkitpro/devkitARM/bin/arm-none-eabi-ar"
 ranlib = "/opt/devkitpro/devkitARM/bin/arm-none-eabi-ranlib"
 linker = "/opt/devkitpro/devkitARM/bin/arm-none-eabi-gcc"
+```
+
+Also, to build `compiler_builtins` for the target, export these flags before
+building the Rust toolchain:
+
+```sh
+export CFLAGS_armv6k_nintendo_3ds="-mfloat-abi=hard -mtune=mpcore -mtp=soft -march=armv6k"
 ```
 
 ## Building Rust programs
