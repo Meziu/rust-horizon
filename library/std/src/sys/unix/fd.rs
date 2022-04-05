@@ -205,7 +205,7 @@ impl FileDesc {
         }
     }
     #[cfg(any(
-        all(target_env = "newlib", not(target_os = "espidf"), not(target_os = "horizon")),
+        all(target_env = "newlib", not(any(target_os = "espidf", target_os = "horizon"))),
         target_os = "solaris",
         target_os = "illumos",
         target_os = "emscripten",
@@ -229,7 +229,7 @@ impl FileDesc {
     #[cfg(any(target_os = "espidf", target_os = "horizon"))]
     pub fn set_cloexec(&self) -> io::Result<()> {
         // FD_CLOEXEC is not supported in ESP-IDF and Horizon OS but there's no need to,
-        // because both do not support spawning processes either.
+        // because neither supports spawning processes either.
         Ok(())
     }
 

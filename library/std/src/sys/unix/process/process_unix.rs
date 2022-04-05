@@ -291,7 +291,7 @@ impl Command {
             cvt_r(|| libc::dup2(fd, libc::STDERR_FILENO))?;
         }
 
-        #[cfg(not(any(target_os = "l4re", target_os = "horizon")))]
+        #[cfg(not(target_os = "l4re"))]
         {
             if let Some(_g) = self.get_groups() {
                 //FIXME: Redox kernel does not support setgroups yet
@@ -589,7 +589,6 @@ impl Process {
         self.pid as u32
     }
 
-    #[cfg(not(target_os = "horizon"))]
     pub fn kill(&mut self) -> io::Result<()> {
         // If we've already waited on this process then the pid can be recycled
         // and used for another process, and we probably shouldn't be killing
@@ -604,12 +603,6 @@ impl Process {
         }
     }
 
-    #[cfg(target_os = "horizon")]
-    pub fn kill(&mut self) -> io::Result<()> {
-        Err(Error::new(ErrorKind::Other, "kill not implemented on this os"))
-    }
-
-    #[cfg(not(target_os = "horizon"))]
     pub fn wait(&mut self) -> io::Result<ExitStatus> {
         use crate::sys::cvt_r;
         if let Some(status) = self.status {
@@ -621,12 +614,6 @@ impl Process {
         Ok(ExitStatus::new(status))
     }
 
-    #[cfg(target_os = "horizon")]
-    pub fn wait(&mut self) -> io::Result<ExitStatus> {
-        Err(Error::new(ErrorKind::Other, "wait not implemented on this os"))
-    }
-
-    #[cfg(not(target_os = "horizon"))]
     pub fn try_wait(&mut self) -> io::Result<Option<ExitStatus>> {
         if let Some(status) = self.status {
             return Ok(Some(status));
@@ -639,11 +626,6 @@ impl Process {
             self.status = Some(ExitStatus::new(status));
             Ok(Some(ExitStatus::new(status)))
         }
-    }
-
-    #[cfg(target_os = "horizon")]
-    pub fn try_wait(&mut self) -> io::Result<Option<ExitStatus>> {
-        Err(Error::new(ErrorKind::Other, "try_wait not implemented on this os"))
     }
 }
 
@@ -713,14 +695,6 @@ impl From<c_int> for ExitStatus {
     }
 }
 
-#[cfg(target_os = "horizon")]
-impl fmt::Display for ExitStatus {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        write!(f, "formatting ExitStatus can not be implemented")
-    }
-}
-
-#[cfg(not(target_os = "horizon"))]
 impl fmt::Display for ExitStatus {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         if let Some(code) = self.code() {
