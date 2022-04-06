@@ -229,7 +229,7 @@ impl FileDesc {
     #[cfg(any(target_os = "espidf", target_os = "horizon"))]
     pub fn set_cloexec(&self) -> io::Result<()> {
         // FD_CLOEXEC is not supported in ESP-IDF and Horizon OS but there's no need to,
-        // because neither supports spawning processes either.
+        // because neither supports spawning processes.
         Ok(())
     }
 
