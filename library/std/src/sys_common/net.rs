@@ -110,7 +110,13 @@ where
 pub fn sockaddr_to_addr(storage: &c::sockaddr_storage, len: usize) -> io::Result<SocketAddr> {
     match storage.ss_family as c_int {
         c::AF_INET => {
+            #[cfg(not(target_os = "horizon"))]
             assert!(len >= mem::size_of::<c::sockaddr_in>());
+
+            // Under HorizonOS, sockaddr_in has 8 zeroed trailing bytes that do not get written.
+            #[cfg(target_os = "horizon")]
+            assert!(len >= (mem::size_of::<c::sockaddr_in>() - mem::size_of::<[c::c_char; 8]>()));
+
             Ok(SocketAddr::V4(FromInner::from_inner(unsafe {
                 *(storage as *const _ as *const c::sockaddr_in)
             })))
